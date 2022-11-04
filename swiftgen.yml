@@ -1,0 +1,10 @@
+xcassets:
+  inputs:
+    - Sources/OWOWDeveloperTools/Assets/Assets.xcassets
+  outputs:
+    - templatePath: Support/SwiftUIColors.stencil
+      output: Sources/OWOWDeveloperTools/Assets/Color.swift
+    - templatePath: Support/UIKitColors.stencil
+      output: Sources/OWOWDeveloperTools/Assets/UIColor.swift
+    - templatePath: Support/SwiftUIImages.stencil
+      output: Sources/OWOWDeveloperTools/Assets/Image.swift

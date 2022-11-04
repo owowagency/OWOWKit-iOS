@@ -1,0 +1,35 @@
+import SwiftUI
+
+{% macro colorsBlock assets commentNamespace %}
+{% for asset in assets %}
+  {% if asset.type == "color" %}
+    static var {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}: Color {
+        Color("{{asset.value}}", bundle: .module)
+    }
+
+  {% elif asset.items %}
+    {% set newCommentNamespace %}{% if commentNamespace %}{{ commentNamespace }} / {% endif %}{{ asset.name }}{% endset %}
+// MARK: {{ newCommentNamespace }}
+
+    {% if asset.isNamespaced == "true" %}
+  enum {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}}Namespace {
+        {% call colorsBlock asset.items newCommentNamespace %}
+  }
+  
+  static var {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}: {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}}Namespace.Type {
+      {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}}Namespace.self
+  }
+    {% else %}
+      {% call colorsBlock asset.items newCommentNamespace %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+{% endmacro %}
+
+@available(iOS 13.0, *)
+public extension Color {
+
+  {% for catalog in catalogs %}
+    {% call colorsBlock catalog.assets "" %}
+  {% endfor %}
+}

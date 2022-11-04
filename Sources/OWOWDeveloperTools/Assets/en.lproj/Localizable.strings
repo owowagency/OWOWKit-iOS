@@ -1,0 +1,29 @@
+"propertyValue.unknown" = "Unknown";
+
+"propertyTitle.appName" = "App Name";
+"propertyTitle.buildNumber" = "Build number";
+"propertyTitle.versionNumber" = "Version number";
+"propertyTitle.accessibilityEnabled" = "Accessibility enabled";
+"propertyTitle.legibilityWeight" = "Legibility weight";
+"propertyTitle.colorScheme" = "Color scheme";
+"propertyTitle.colorSchemeContrast" = "Color scheme contrast";
+"propertyTitle.displayScale" = "Display scale";
+"propertyTitle.sizeCategory" = "Size category";
+
+"screenTitle.developerMenu" = "Developer Menu";
+
+"cancelButton" = "Cancel";
+
+"storybook.menu.title" = "Storybook";
+"storybook.menu.groups" = "Groups";
+"storybook.menu.stories" = "Stories";
+
+"storybook.story.sections.renderedComponent" = "Rendered component";
+"storybook.story.sections.arguments" = "Arguments";
+"storybook.story.unsupportedOsVersion" = "Unsupported on current OS version";
+
+"storybook.story.sections.settings" = "Settings";
+
+"storybook.unsupportedType" = "Unsupported (%@)";
+
+"deeplinks" = "Deep links";

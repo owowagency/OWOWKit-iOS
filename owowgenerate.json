@@ -1,0 +1,27 @@
+{
+    "inputCaseStyle": "camelCase",
+    "stringsFiles": [
+        "Sources/OWOWDeveloperTools/Assets/en.lproj/Localizable.strings"
+    ],
+    "tasks": [
+        {
+            "type": "generateSwiftUIMapping",
+            "output": "Sources/OWOWDeveloperTools/Assets/Strings-SwiftUI.swift",
+            "options": {
+                "bundle": ".module",
+                "accessLevel": "public"
+            }
+        },
+        {
+            "type": "generateNSLocalizedStringMapping",
+            "output": "Sources/OWOWDeveloperTools/Assets/Strings-NSLocalizedString.swift",
+            "options": {
+                "bundle": ".module",
+                "accessLevel": "public"
+            }
+        },
+        {
+            "type": "rewriteTranslationFiles"
+        }
+    ]
+}

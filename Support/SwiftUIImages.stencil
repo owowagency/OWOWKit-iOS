@@ -1,0 +1,35 @@
+import SwiftUI
+
+{% macro imagesBlock assets namespace %}
+{% for asset in assets %}
+  {% if asset.type == "image" %}
+    static var {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}: Image {
+        Image("{{asset.value}}", bundle: .module)
+    }
+
+  {% elif asset.items %}
+    {% set newNamespace %}{% if namespace %}{{ namespace }} / {% endif %}{{ asset.name }}{% endset %}
+    // MARK: {{ newNamespace }}
+
+    {% if asset.isNamespaced == "true" %}
+    enum {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}}Namespace {
+      {% call imagesBlock asset.items newNamespace %}
+    }
+
+    static var {{asset.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}: {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}}Namespace.Type {
+        {{asset.name|swiftIdentifier:"pretty"|escapeReservedKeywords}}Namespace.self
+    }
+    {% else %}
+      {% call imagesBlock asset.items newNamespace %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+{% endmacro %}
+
+@available(iOS 13.0, *)
+public extension Image {
+
+  {% for catalog in catalogs %}
+    {% call imagesBlock catalog.assets "" %}
+  {% endfor %}
+}
