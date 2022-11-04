@@ -19,7 +19,7 @@ jobs:
       - name: xcode-select
         run: sudo xcode-select --switch /Applications/Xcode_14.1.app
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: '0'
       - name: Test
