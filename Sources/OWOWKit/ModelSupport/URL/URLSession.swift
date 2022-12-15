@@ -155,9 +155,7 @@ extension URLSession {
             let decoder = decoder ?? OWOWKitConfiguration.jsonDecoder(for: ResponseBody.self)
             decodedBody = try decoder.decode(ResponseBody.self, from: data)
         }
-        
-        let wrappedResponse = Response(body: decodedBody, rawBody: data, statusCode: response.statusCode)
-        
-        return wrappedResponse
+
+        return Response(body: decodedBody, rawBody: data, statusCode: response.statusCode, httpResponse: response)
     }
 }
