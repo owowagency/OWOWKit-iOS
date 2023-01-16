@@ -28,6 +28,9 @@ jobs:
           -scheme OWOWKit-Package \
           -destination "name=iPhone 12,OS=latest" \
           | xcpretty && exit ${PIPESTATUS[0]}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
