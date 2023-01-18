@@ -54,7 +54,11 @@ public struct SheetLink<Label, Content>: View where Label: View, Content: View {
     }
     
     public var body: some View {
-        Button(action: { isPresented = true }) {
+        Button(action: {
+            if !isPresented {
+                isPresented = true
+            }
+        }) {
             label
         }
         .sheet(isPresented: _isPresented, onDismiss: onDismiss, content: content)
