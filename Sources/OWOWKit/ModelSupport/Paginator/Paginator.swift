@@ -2,7 +2,8 @@ import Foundation
 import Combine
 
 /// A protocol for types that can return elements, usually from a "page"-based API.
-public protocol Paginator: AnyObject {
+/// Paginators automatically conform to `AsyncSequence`.
+public protocol Paginator: AnyObject, AsyncSequence {
     /// The `Element` type the paginator paginates.
     associatedtype Element
     
@@ -28,4 +29,30 @@ public protocol Paginator: AnyObject {
     
     /// Returns a publisher that publishes all elements.
     func publish() -> AnyPublisher<Element, Error>
+
+    /// Protocol requirement for `AsyncSequence`.
+    typealias Iterator = PaginatorIterator<Self>
+}
+
+// MARK: - AsyncSequence Implementation
+
+extension Paginator {
+    public func makeAsyncIterator() -> PaginatorIterator<Self> {
+        return PaginatorIterator(paginator: self)
+    }
+}
+
+public struct PaginatorIterator<P: Paginator>: AsyncIteratorProtocol {
+    private let paginator: P
+
+    @IncrementAfterRead
+    private var nextElement = 0
+
+    init(paginator: P) {
+        self.paginator = paginator
+    }
+
+    public mutating func next() async throws -> P.Element? {
+        try await paginator.get(index: nextElement).first
+    }
 }
