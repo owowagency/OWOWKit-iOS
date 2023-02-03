@@ -53,6 +53,10 @@ public struct PaginatorIterator<P: Paginator>: AsyncIteratorProtocol {
     }
 
     public mutating func next() async throws -> P.Element? {
-        try await paginator.get(index: nextElement).first
+        do {
+            return try await paginator.get(index: nextElement).first
+        } catch PaginationError.indexOutOfBounds {
+            return nil
+        }
     }
 }
