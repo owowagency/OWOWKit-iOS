@@ -18,7 +18,7 @@ struct StoryArgumentView<Target>: View {
             case let keyPath as WritableKeyPath<Target, String>:
                 TextField(name, text: makeBinding(keyPath))
             default:
-                if let customUIType = type(of: keyPath).valueType as? CustomArgumentUIRendering.Type {
+                if let customUIType = type(of: keyPath).valueType as? any CustomArgumentUIRendering.Type {
                     customUIType.internalRenderArgumentUI(root: $target, keyPath: keyPath)
                 } else {
                     Text.storybook.unsupportedType(String(describing: type(of: keyPath).valueType))
