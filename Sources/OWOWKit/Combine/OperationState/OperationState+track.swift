@@ -88,4 +88,36 @@ public extension OperationState {
         
         return task
     }
+    
+    @discardableResult
+    static func track(
+        updates: @MainActor @escaping (Self) -> Void,
+        task: @escaping @Sendable () async throws -> Result
+    ) -> Task<Result, Error> where Failure == Error {
+        return Task { @MainActor in
+            updates(.inProgress)
+            
+            do {
+                let result = try await task()
+                updates(.finished(result))
+                return result
+            } catch {
+                updates(.error(error))
+                throw error
+            }
+        }
+    }
+    
+    @discardableResult
+    static func track(
+        updates: @escaping (Self) -> Void,
+        task: @escaping @Sendable () async -> Result
+    ) -> Task<Result, Never> where Failure == Never {
+        return Task {
+            updates(.inProgress)
+            let result = await task()
+            updates(.finished(result))
+            return result
+        }
+    }
 }
