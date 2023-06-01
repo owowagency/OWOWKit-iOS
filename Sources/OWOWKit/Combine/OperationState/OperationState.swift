@@ -157,3 +157,4 @@ public enum OperationState<Result, Failure: Error> {
     }
 }
 
+extension OperationState: Sendable where Result: Sendable {}
